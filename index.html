@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>One Glass OS</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- ========================================================= -->
+    <!-- OVERLAYS: BLUR & SCREEN BRIGHTNESS/DIMMER -->
+    <!-- ========================================================= -->
+    <div id="desktop-blur-overlay"></div>
+    <div id="brightness-overlay"></div>
+
+    <!-- ========================================================= -->
+    <!-- DESKTOP APP ICONS -->
+    <!-- ========================================================= -->
+    <div class="desktop-icons-container">
+        <div id="icon-focus" class="desktop-icon" draggable="true" data-app="focus">
+            <div class="icon-box">
+                <span class="icon-symbol">🕰️</span>
+            </div>
+            <span class="icon-label">Glass Focus</span>
+        </div>
+
+        <div id="icon-terminal" class="desktop-icon" draggable="true" data-app="terminal">
+            <div class="icon-box terminal-icon-box">
+                <span class="icon-symbol">&gt;_</span>
+            </div>
+            <span class="icon-label">Glass Terminal</span>
+        </div>
+
+        <div id="icon-weather" class="desktop-icon" draggable="true" data-app="weather">
+            <div class="icon-box">
+                <span class="icon-symbol">🌤️</span>
+            </div>
+            <span class="icon-label">Weather Glass</span>
+        </div>
+
+        <div id="icon-settings" class="desktop-icon" draggable="true" data-app="settings">
+            <div class="icon-box">
+                <span class="icon-symbol">⚙️</span>
+            </div>
+            <span class="icon-label">Settings</span>
+        </div>
+    </div>
+
+    <!-- ========================================================= -->
+    <!-- DESKTOP DOCK (STATUS BAR) -->
+    <!-- ========================================================= -->
+    <div id="desktop-dock" class="glass-dock">
+        <div class="dock-slot" data-dock-app="focus" title="Glass Focus">🕰️</div>
+        <div class="dock-slot" data-dock-app="terminal" title="Glass Terminal">&gt;_</div>
+        <div class="dock-slot" data-dock-app="weather" title="Weather Glass">🌤️</div>
+        <div class="dock-slot" data-dock-app="settings" title="Settings">⚙️</div>
+    </div>
+
+    <!-- ========================================================= -->
+    <!-- PERSISTENT DESKTOP WIDGETS -->
+    <!-- ========================================================= -->
+    <div id="widget-clock" class="glass-widget draggable" style="display: none; top: 40px; right: 40px;">
+        <div class="widget-header">
+            <span>FLIP CLOCK</span>
+            <span class="close-widget" onclick="closeWidget('widget-clock')">×</span>
+        </div>
+        <div class="widget-content">
+            <div id="clock-display" class="flip-display">00:00:00</div>
+        </div>
+    </div>
+
+    <div id="widget-calendar" class="glass-widget draggable" style="display: none; top: 180px; right: 40px;">
+        <div class="widget-header">
+            <span>CALENDAR</span>
+            <span class="close-widget" onclick="closeWidget('widget-calendar')">×</span>
+        </div>
+        <div class="widget-content">
+            <div id="cal-day" class="cal-today">--</div>
+            <div id="cal-date" class="cal-number">00</div>
+            <div id="cal-month" class="cal-sub">---</div>
+        </div>
+    </div>
+
+    <!-- ========================================================= -->
+    <!-- SIGNATURE WELCOME WINDOW -->
+    <!-- ========================================================= -->
+    <div class="main-window draggable" id="welcome-window" style="top: 40%; left: 50%; transform: translate(-50%, -50%); z-index: 101;">
+        <div class="title-bar" id="welcome-header">
+            <span class="title-text">One Glass OS</span>
+            <div style="display: flex; align-items: center; gap: 15px;">
+                <span class="title-text" id="welcome-time">00:00:00</span>
+                <span id="close-welcome-btn" class="control-btn close-btn" title="Close">×</span>
+            </div>
+        </div>
+
+        <div class="window-content welcome-content">
+            <img src="./no.jpeg" alt="One Glass OS Logo">
+            <h1>Welcome to One Glass OS</h1>
+            <p>Your custom web operating system workspace.</p>
+            <button class="glass-btn" id="launch-app-btn" style="margin-top: 10px;">Launch</button>
+        </div>
+    </div>
+
+    <!-- ========================================================= -->
+    <!-- APP 1: GLASS FOCUS SUITE -->
+    <!-- ========================================================= -->
+    <div class="main-window resizable draggable" id="focus-window" style="display: none; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 100;">
+        <div class="title-bar" id="focus-header">
+            <div class="title-left">
+                <span class="title-text">Glass Focus</span>
+            </div>
+            <div class="window-controls">
+                <span class="control-btn fullscreen-btn" title="Toggle Fullscreen">⤢</span>
+                <span id="close-focus-btn" class="control-btn close-btn" title="Close App">×</span>
+            </div>
+        </div>
+
+        <div class="app-nav">
+            <button class="nav-tab active" onclick="switchTab('tab-pomodoro', this)">Pomodoro Suite</button>
+            <button class="nav-tab" onclick="switchTab('tab-widgets', this)">Widget Hub</button>
+        </div>
+
+        <div class="window-content">
+            <div id="tab-pomodoro" class="tab-content active">
+                <div class="timer-card">
+                    <h2 id="timer-display">25:00</h2>
+                    <div class="timer-controls">
+                        <button id="start-timer-btn" class="glass-btn">Start</button>
+                        <button id="pause-timer-btn" class="glass-btn">Pause</button>
+                        <button id="reset-timer-btn" class="glass-btn">Reset</button>
+                    </div>
+                </div>
+
+                <div class="task-card">
+                    <h3>Focus Goals</h3>
+                    <div class="task-input-group">
+                        <input type="text" id="task-input" placeholder="Add a new goal...">
+                        <button id="add-task-btn" class="glass-btn">+</button>
+                    </div>
+                    <ul id="task-list" class="task-list"></ul>
+                </div>
+            </div>
+
+            <div id="tab-widgets" class="tab-content">
+                <h3>Desktop Widgets</h3>
+                <p>Toggle widgets onto your desktop.</p>
+                <div class="widget-toggle-list">
+                    <div class="toggle-item">
+                        <span>Frosted Flip Clock</span>
+                        <button class="glass-btn" onclick="toggleWidget('widget-clock')">Toggle Clock</button>
+                    </div>
+                    <div class="toggle-item">
+                        <span>Frosted Mini Calendar</span>
+                        <button class="glass-btn" onclick="toggleWidget('widget-calendar')">Toggle Calendar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ========================================================= -->
+    <!-- APP 2: ADVANCED GLASS TERMINAL -->
+    <!-- ========================================================= -->
+    <div class="main-window resizable draggable dark-glass-window" id="terminal-window" style="display: none; top: 48%; left: 48%; transform: translate(-50%, -50%); z-index: 100;">
+        <div class="title-bar dark-title-bar" id="terminal-header">
+            <div class="title-left-tabs">
+                <span class="title-text text-light">Glass Terminal</span>
+                <button class="term-tab-btn active" onclick="switchTermView('view-cli', this)">Terminal</button>
+                <button class="term-tab-btn" onclick="switchTermView('view-commands', this)">Commands</button>
+            </div>
+            <div class="window-controls">
+                <span class="control-btn fullscreen-btn text-light" title="Toggle Fullscreen">⤢</span>
+                <span id="close-terminal-btn" class="control-btn close-btn" title="Close">×</span>
+            </div>
+        </div>
+
+        <div class="window-content term-content-area">
+            <!-- Terminal View -->
+            <div id="view-cli" class="term-view active">
+                <div id="terminal-output" class="cli-output">
+                    <div class="term-line system-msg">One Glass OS [Version 1.0.5]</div>
+                    <div class="term-line system-msg">Type <span class="highlight">help</span> or click 'Commands' tab above for available commands.</div>
+                </div>
+                <div class="cli-input-row">
+                    <span class="prompt-symbol">user@oneglass-os:~$</span>
+                    <input type="text" id="terminal-input" placeholder="Type command..." autofocus>
+                </div>
+            </div>
+
+            <!-- Available Commands View -->
+            <div id="view-commands" class="term-view">
+                <h3 class="term-subheading">System Commands Directory</h3>
+                <div class="cmd-grid">
+                    <div class="cmd-card"><code>help</code> <span>Display system commands help list</span></div>
+                    <div class="cmd-card"><code>clear</code> <span>Clear the terminal buffer screen</span></div>
+                    <div class="cmd-card"><code>time</code> <span>Display current live date & system time</span></div>
+                    <div class="cmd-card"><code>open [app]</code> <span>Launch app (focus, weather, settings)</span></div>
+                    <div class="cmd-card"><code>echo [text]</code> <span>Print custom text string to console</span></div>
+                    <div class="cmd-card"><code>theme [glass/dark]</code> <span>Toggle desktop background filter</span></div>
+                    <div class="cmd-card"><code>about</code> <span>Display One Glass OS system specs</span></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ========================================================= -->
+    <!-- APP 3: WEATHER GLASS -->
+    <!-- ========================================================= -->
+    <div class="main-window resizable draggable" id="weather-window" style="display: none; top: 52%; left: 52%; transform: translate(-50%, -50%); z-index: 100;">
+        <div class="title-bar" id="weather-header">
+            <span class="title-text">Weather Glass</span>
+            <div class="window-controls">
+                <span class="control-btn fullscreen-btn">⤢</span>
+                <span id="close-weather-btn" class="control-btn close-btn">×</span>
+            </div>
+        </div>
+        <div class="window-content">
+            <div class="weather-search">
+                <input type="text" id="weather-city-input" placeholder="Enter city (e.g. London, Tokyo)">
+                <button class="glass-btn" id="weather-search-btn">Search</button>
+            </div>
+            <div class="weather-card">
+                <h2 id="weather-city-name">Kochi, IN</h2>
+                <div class="weather-main-display">
+                    <span id="weather-icon" style="font-size: 48px;">🌤️</span>
+                    <h1 id="weather-temp">29°C</h1>
+                </div>
+                <p id="weather-condition">Partly Cloudy</p>
+                <div class="weather-details-grid">
+                    <div class="weather-detail-item">
+                        <span>Humidity</span>
+                        <strong id="weather-humidity">78%</strong>
+                    </div>
+                    <div class="weather-detail-item">
+                        <span>Wind Speed</span>
+                        <strong id="weather-wind">12 km/h</strong>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ========================================================= -->
+    <!-- APP 4: SETTINGS APP -->
+    <!-- ========================================================= -->
+    <div class="main-window draggable" id="settings-window" style="display: none; top: 45%; left: 45%; transform: translate(-50%, -50%); z-index: 100;">
+        <div class="title-bar" id="settings-header">
+            <span class="title-text">Settings</span>
+            <div class="window-controls">
+                <span id="close-settings-btn" class="control-btn close-btn">×</span>
+            </div>
+        </div>
+        <div class="window-content">
+            <h3>System Control Panel</h3>
+            
+            <div class="settings-group">
+                <label>Audio Master Volume: <span id="volume-val">80%</span></label>
+                <input type="range" id="setting-volume" min="0" max="100" value="80">
+            </div>
+
+            <div class="settings-group">
+                <label>Display Screen Dimmer: <span id="dimmer-val">0%</span></label>
+                <input type="range" id="setting-dimmer" min="0" max="80" value="0">
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

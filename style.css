@@ -1,0 +1,323 @@
+/* --- Base Desktop --- */
+body {
+    background-image: url('./background.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    height: 100vh;
+    margin: 0;
+    overflow: hidden;
+    position: relative;
+}
+
+/* --- Overlays --- */
+#desktop-blur-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    background: rgba(0, 0, 0, 0.2);
+    z-index: 95;
+    transition: opacity 0.3s ease;
+}
+
+#brightness-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0);
+    pointer-events: none;
+    z-index: 900;
+    transition: background 0.1s ease;
+}
+
+/* --- Desktop App Icons Layout --- */
+.desktop-icons-container {
+    position: absolute;
+    top: 30px;
+    left: 30px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    z-index: 10;
+}
+
+.desktop-icon {
+    text-align: center;
+    cursor: grab;
+    user-select: none;
+    width: 75px;
+}
+
+.desktop-icon:active { cursor: grabbing; }
+
+.icon-box {
+    width: 60px;
+    height: 60px;
+    background: rgba(255, 255, 255, 0.35);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 6px auto;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+    transition: transform 0.2s, background 0.2s;
+}
+
+.terminal-icon-box {
+    background: rgba(15, 23, 42, 0.65);
+    color: #38bdf8;
+    font-family: monospace;
+    font-weight: bold;
+    font-size: 22px;
+}
+
+.icon-symbol {
+    font-size: 30px;
+    filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));
+}
+
+.desktop-icon:hover .icon-box {
+    background: rgba(255, 255, 255, 0.55);
+    transform: scale(1.05);
+}
+
+.icon-label {
+    font-size: 11px;
+    font-weight: 600;
+    color: #ffffff;
+    text-shadow: 0 1px 4px rgba(0,0,0,0.8);
+}
+
+/* --- Bottom Dock / Status Bar --- */
+.glass-dock {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(255, 255, 255, 0.35);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    border-radius: 20px;
+    padding: 8px 16px;
+    display: flex;
+    gap: 15px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    z-index: 80;
+}
+
+.dock-slot {
+    width: 44px;
+    height: 44px;
+    background: rgba(255, 255, 255, 0.4);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+    cursor: pointer;
+    transition: transform 0.2s, background 0.2s;
+    user-select: none;
+}
+
+.dock-slot:hover {
+    transform: translateY(-6px) scale(1.15);
+    background: rgba(255, 255, 255, 0.7);
+}
+
+/* --- Translucent Glass Windows --- */
+.main-window {
+    background-color: rgba(255, 255, 255, 0.65);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    border-radius: 12px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.25);
+    width: 440px;
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+}
+
+.dark-glass-window {
+    background-color: rgba(15, 23, 42, 0.85);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    color: #f8fafc;
+}
+
+.resizable {
+    resize: both;
+    overflow: auto;
+    min-width: 320px;
+    min-height: 380px;
+}
+
+.main-window.fullscreen {
+    width: 100vw !important;
+    height: 100vh !important;
+    top: 0 !important;
+    left: 0 !important;
+    transform: none !important;
+    border-radius: 0 !important;
+    resize: none !important;
+}
+
+/* --- Title Bars & Controls --- */
+.title-bar {
+    background-color: rgba(255, 255, 255, 0.4);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    padding: 10px 16px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: grab;
+}
+
+.dark-title-bar {
+    background-color: rgba(30, 41, 59, 0.7);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.title-bar:active { cursor: grabbing; }
+
+.title-text {
+    font-size: 13px;
+    font-weight: 600;
+    color: #1d1d1f;
+}
+
+.text-light { color: #f8fafc; }
+
+.title-left-tabs {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.term-tab-btn {
+    background: transparent;
+    border: none;
+    color: #94a3b8;
+    font-size: 11px;
+    font-weight: 600;
+    cursor: pointer;
+    padding: 3px 8px;
+    border-radius: 4px;
+}
+
+.term-tab-btn.active {
+    background: rgba(255, 255, 255, 0.15);
+    color: #38bdf8;
+}
+
+.window-controls { display: flex; gap: 10px; }
+
+.control-btn {
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 14px;
+    opacity: 0.6;
+    transition: opacity 0.2s, color 0.2s;
+}
+
+.control-btn:hover { opacity: 1; }
+.close-btn:hover { color: #ff3b30; }
+
+/* --- Window Content & Welcome Screen --- */
+.window-content { padding: 20px; flex: 1; overflow-y: auto; }
+.welcome-content { text-align: center; padding: 30px 20px; }
+
+.welcome-content img {
+    width: 80px;
+    height: 80px;
+    border-radius: 16px;
+    object-fit: cover;
+    margin-bottom: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+.welcome-content h1 { font-size: 22px; margin: 0 0 8px 0; color: #1d1d1f; }
+.welcome-content p { font-size: 14px; color: rgba(0, 0, 0, 0.7); margin-bottom: 15px; }
+
+/* --- App Nav & Buttons --- */
+.app-nav { display: flex; background: rgba(255, 255, 255, 0.3); border-bottom: 1px solid rgba(255, 255, 255, 0.2); }
+.nav-tab { flex: 1; padding: 10px; border: none; background: transparent; font-weight: 600; font-size: 13px; color: rgba(0, 0, 0, 0.6); cursor: pointer; }
+.nav-tab.active { background: rgba(255, 255, 255, 0.6); color: #1d1d1f; }
+
+.tab-content { display: none; }
+.tab-content.active { display: block; }
+
+.glass-btn {
+    background: rgba(255, 255, 255, 0.6);
+    border: 1px solid rgba(255, 255, 255, 0.8);
+    padding: 8px 14px;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    color: #1d1d1f;
+}
+
+.glass-btn:hover { background: rgba(255, 255, 255, 0.9); transform: translateY(-1px); }
+
+/* --- Pomodoro UI --- */
+.timer-card { background: rgba(255, 255, 255, 0.45); border: 1px solid rgba(255, 255, 255, 0.6); border-radius: 12px; padding: 20px; text-align: center; margin-bottom: 15px; }
+.timer-card h2 { font-size: 42px; margin: 0 0 15px 0; color: #1d1d1f; }
+.task-card { background: rgba(255, 255, 255, 0.45); border: 1px solid rgba(255, 255, 255, 0.6); border-radius: 12px; padding: 15px; }
+.task-card h3 { margin: 0 0 10px 0; font-size: 14px; }
+.task-input-group { display: flex; gap: 8px; margin-bottom: 10px; }
+.task-input-group input { flex: 1; padding: 8px; border: 1px solid rgba(255, 255, 255, 0.6); border-radius: 6px; background: rgba(255, 255, 255, 0.5); outline: none; }
+.task-list { list-style: none; padding: 0; margin: 0; }
+.task-list li { padding: 6px 8px; border-bottom: 1px solid rgba(0, 0, 0, 0.05); font-size: 13px; cursor: pointer; }
+.task-list li.done { text-decoration: line-through; opacity: 0.5; }
+
+/* --- Terminal UI --- */
+.term-content-area { font-family: "Fira Code", monospace, sans-serif; font-size: 12px; padding: 15px; background: rgba(10, 15, 30, 0.8); }
+.term-view { display: none; }
+.term-view.active { display: block; }
+.cli-output { height: 260px; overflow-y: auto; margin-bottom: 10px; }
+.term-line { margin-bottom: 6px; line-height: 1.4; }
+.system-msg { color: #94a3b8; }
+.highlight { color: #38bdf8; font-weight: bold; }
+.cli-input-row { display: flex; align-items: center; gap: 8px; }
+.prompt-symbol { color: #4ade80; font-weight: bold; }
+#terminal-input { flex: 1; background: transparent; border: none; outline: none; color: #f8fafc; font-family: monospace; }
+.cmd-grid { display: grid; grid-template-columns: 1fr; gap: 8px; margin-top: 10px; }
+.cmd-card { background: rgba(255,255,255,0.05); padding: 8px 12px; border-radius: 6px; display: flex; gap: 15px; align-items: center; }
+.cmd-card code { color: #38bdf8; font-weight: bold; }
+.cmd-card span { color: #94a3b8; font-size: 11px; }
+
+/* --- Weather UI --- */
+.weather-search { display: flex; gap: 8px; margin-bottom: 15px; }
+.weather-search input { flex: 1; padding: 8px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.6); background: rgba(255,255,255,0.4); outline: none; }
+.weather-card { text-align: center; background: rgba(255,255,255,0.4); border-radius: 12px; padding: 20px; }
+.weather-card h2 { margin: 0; font-size: 20px; }
+.weather-main-display { display: flex; align-items: center; justify-content: center; gap: 15px; margin: 10px 0; }
+.weather-main-display h1 { font-size: 44px; margin: 0; }
+.weather-details-grid { display: flex; justify-content: space-around; margin-top: 15px; border-top: 1px solid rgba(0,0,0,0.05); padding-top: 12px; }
+.weather-detail-item { display: flex; flex-direction: column; font-size: 12px; }
+
+/* --- Settings UI --- */
+.settings-group { margin-bottom: 20px; }
+.settings-group label { display: block; font-size: 13px; font-weight: 600; margin-bottom: 8px; }
+.settings-group input[type="range"] { width: 100%; }
+
+/* --- Widgets --- */
+.glass-widget { position: absolute; background: rgba(255, 255, 255, 0.55); backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.6); border-radius: 12px; width: 180px; padding: 10px; z-index: 50; }
+.widget-header { display: flex; justify-content: space-between; font-size: 10px; font-weight: 700; color: rgba(0, 0, 0, 0.5); cursor: grab; padding-bottom: 6px; border-bottom: 1px solid rgba(0,0,0,0.05); }
+.close-widget { cursor: pointer; font-size: 14px; }
+.widget-content { text-align: center; padding-top: 8px; }
+.flip-display { font-size: 20px; font-weight: 700; font-family: monospace; }
+.cal-today { font-size: 11px; text-transform: uppercase; color: #ff3b30; font-weight: 700; }
+.cal-number { font-size: 28px; font-weight: 800; margin: 2px 0; }
+.cal-sub { font-size: 11px; color: rgba(0, 0, 0, 0.6); font-weight: 600; }
